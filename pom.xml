@@ -15,4 +15,16 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<distributionManagement>
+		<repository>
+			<id>spaceio-releases</id>
+			<name>releases</name>
+			<url>https://hub.spaceio.xyz/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>spaceio-snapshots</id>
+			<name>snapshots</name>
+			<url>https://hub.spaceio.xyz/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

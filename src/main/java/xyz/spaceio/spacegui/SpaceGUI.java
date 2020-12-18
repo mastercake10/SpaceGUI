@@ -42,6 +42,16 @@ public class SpaceGUI {
 		return this;
 	}
 	
+    public SpaceGUI addRow(SpaceItem spaceItem, int row) {
+        if (row == -1) {
+            row = this.size / 9 - 1;
+        }
+        for (int i = row * 9; i < row * 9 + 9; ++i) {
+            this.addItem(spaceItem, i);
+        }
+        return this;
+    }
+	
 	public SpaceGUI build() {
 		this.inventory = Bukkit.createInventory(null, size, title);
 		

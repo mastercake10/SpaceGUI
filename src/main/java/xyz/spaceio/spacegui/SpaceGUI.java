@@ -51,6 +51,13 @@ public class SpaceGUI {
         }
         return this;
     }
+    
+    public SpaceGUI fillBackground(SpaceItem spaceItem) {
+        for (int i = 0; i < this.size; ++i) {
+            this.addItem(spaceItem, i);
+        }
+        return this;
+    }
 	
 	public SpaceGUI build() {
 		this.inventory = Bukkit.createInventory(null, size, title);
@@ -74,7 +81,7 @@ public class SpaceGUI {
 	public void onClick(InventoryClickEvent e) {
 		if(!this.items.containsKey(e.getSlot())) return;
 		
-		this.items.get(e.getSlot()).performActions((Player) e.getWhoClicked());
+		this.items.get(e.getSlot()).performActions((Player) e.getWhoClicked(), e.getInventory().getItem(e.getSlot()));
 		
 		e.setCancelled(true);
 	}

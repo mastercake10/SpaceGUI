@@ -1,20 +1,24 @@
 package xyz.spaceio.spaceitem;
 
-import org.bukkit.inventory.*;
-import java.util.function.*;
-import org.bukkit.entity.*;
-import java.util.stream.*;
-import java.util.*;
-import org.bukkit.inventory.meta.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpaceItem
 {
     private ItemStack itemStack;
-    private List<Consumer<Player>> actions;
+    private List<BiConsumer<Player, ItemStack>> actions;
     
     public SpaceItem() {
         super();
-        this.actions = new ArrayList<Consumer<Player>>();
+        this.actions = new ArrayList< BiConsumer<Player, ItemStack>>();
     }
     
     public SpaceItem setStack(final ItemStack itemStack) {
@@ -32,13 +36,13 @@ public class SpaceItem
         }
     }
     
-    public SpaceItem addAction(final Consumer<Player> action) {
+    public SpaceItem addAction(final BiConsumer<Player, ItemStack> action) {
         this.actions.add(action);
         return this;
     }
     
-    public void performActions(final Player player) {
-        this.actions.forEach(c -> c.accept(player));
+    public void performActions(final Player player, final ItemStack itemStack) {
+        this.actions.forEach(c -> c.accept(player, itemStack));
     }
     
     public ItemStack getItemStack() {

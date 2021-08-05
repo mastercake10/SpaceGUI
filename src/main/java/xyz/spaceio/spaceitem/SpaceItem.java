@@ -94,7 +94,7 @@ public class SpaceItem implements ConfigurationSerializable {
         		
         		Object[] formatArgs = Arrays.stream(this.format).map(function -> function.apply(player)).toArray(Object[]::new);
         		
-        		itemMeta.setDisplayName(itemMeta.getDisplayName().formatted(formatArgs));
+        		itemMeta.setDisplayName(String.format(itemMeta.getDisplayName(), formatArgs));
         		ItemStack cloned = this.itemStack.clone();
         		cloned.setItemMeta(itemMeta);
 

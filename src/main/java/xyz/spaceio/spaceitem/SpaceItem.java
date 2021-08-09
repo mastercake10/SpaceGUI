@@ -128,7 +128,9 @@ public class SpaceItem implements ConfigurationSerializable {
 	
 	@SuppressWarnings("unchecked")
 	public SpaceItem setFormat(Function<Player, Object> format) {
-		return this.setFormat(Collections.singletonList(format).toArray(Function[]::new));
+		Function<Player, Object>[] functions = new Function[] { format };
+		return this.setFormat(functions);
+		// return this.setFormat(Collections.singletonList(format).toArray(Function[]::new));
 	}
 	
 //	public SpaceItem setFormat(Function<Player, Object> format) {

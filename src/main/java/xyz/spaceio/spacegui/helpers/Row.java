@@ -52,7 +52,7 @@ public class Row implements Helper{
 				int cnt = 0;
 				for (int i = 0; i < 9; i++) {
 				    if((PATTERN[i] >> (8-itemList.size()) & 1) != 0) {
-				    	gui.addItem(itemList.get(cnt), i);
+				    	gui.addItem(itemList.get(cnt), i + rowNum * 9);
 				    	
 				    	cnt++;
 				    }

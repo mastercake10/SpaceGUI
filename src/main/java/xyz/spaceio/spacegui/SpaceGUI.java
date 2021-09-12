@@ -105,10 +105,12 @@ public class SpaceGUI implements ConfigurationSerializable{
 	
 	public Inventory build(Player player) {
 		Inventory inventory = Bukkit.createInventory(null, size, title);
-
-		backGroundItem.format(player);
-		for(int i = 0; i < this.size; i++) {
-			inventory.setItem(i, backGroundItem.getItemStack());
+		
+		if(backGroundItem != null) {
+			backGroundItem.format(player);
+			for(int i = 0; i < this.size; i++) {
+				inventory.setItem(i, backGroundItem.getItemStack());
+			}			
 		}
 		
 		items.forEach((slot, item) -> {

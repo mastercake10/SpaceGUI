@@ -1,10 +1,13 @@
 package xyz.spaceio.spacegui;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 
@@ -12,8 +15,11 @@ import xyz.spaceio.spaceitem.SpaceItem;
 
 public class GUIProvider {
 	
-	private static Set<GUIView> registeredGUIs = new HashSet<GUIView>();
-	
+	private static HashMap<Player, GUIView> registeredGUIs = new HashMap<>();
+//	class PlayerCache {
+//	Queue<GUIView> history = new PriorityQueue<GUIView>();
+//	GUIView currentView;
+//}
 	public static void registerPlugin(Plugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(new GUIListener(), plugin);
 		
@@ -22,19 +28,30 @@ public class GUIProvider {
 	}
 	
 	public static void registerView(GUIView guiView) {
-		registeredGUIs.add(guiView);
+		if(registeredGUIs.containsKey(guiView.viewer)) {
+			
+			if(!guiView.getPreviousView().isPresent()) {
+				// don't update if view has already a previous gui to prevent circles
+				guiView.setPreviousView(registeredGUIs.get(guiView.viewer));				
+			}
+		}
+		registeredGUIs.put(guiView.viewer, guiView);
 	}
 	
 	public static Set<GUIView> getRegisterdViews(){
-		return registeredGUIs;
+		return new HashSet<>(registeredGUIs.values());
 	}
 	
 	public static Optional<GUIView> getViewByInventory(Inventory inventory){
-		Optional<GUIView> gui = registeredGUIs.stream().filter(g -> g.matchesInventory(inventory)).findFirst();
+		Optional<GUIView> gui = GUIProvider.getRegisterdViews().stream().filter(g -> g.matchesInventory(inventory)).findFirst();
 		return gui;
 	}
 	
 	static void destoryView(GUIView view) {
-		registeredGUIs.remove(view);
+		GUIProvider.destoryView(view.viewer);
+	}
+	
+	static void destoryView(Player player) {
+		registeredGUIs.remove(player);
 	}
 }

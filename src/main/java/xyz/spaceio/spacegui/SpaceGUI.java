@@ -103,7 +103,7 @@ public class SpaceGUI implements ConfigurationSerializable{
     	return this;
     }
 	
-	public Inventory build(Player player) {
+	public GUIView build(Player player) {
 		Inventory inventory = Bukkit.createInventory(null, size, title);
 		
 		if(backGroundItem != null) {
@@ -114,19 +114,19 @@ public class SpaceGUI implements ConfigurationSerializable{
 		}
 		
 		items.forEach((slot, item) -> {
-			item.format(player);
-			inventory.setItem(slot, item.getItemStack());
+			if(item != null) {
+				item.format(player);
+				inventory.setItem(slot, item.getItemStack());				
+			}
 		});
+		GUIView view = new GUIView(player, this, inventory);
 		
-		
-		return inventory;
+		return view;
 	}
 	
 	public void open(Player player) {
-		GUIView view = new GUIView(player, this, build(player));
-		
-		GUIProvider.registerView(view);
-		player.openInventory(view.inventory);
+		GUIView view = this.build(player);
+		view.show();
 	}
 	
 

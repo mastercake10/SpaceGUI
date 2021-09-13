@@ -17,11 +17,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import xyz.spaceio.spacegui.GUIView;
+import xyz.spaceio.spacegui.SpaceGUI;
 
 public class SpaceItem implements ConfigurationSerializable {
 	
     private ItemStack itemStack;
-    private List<BiConsumer<Player, ClickAction>> actions;
+    protected List<BiConsumer<Player, ClickAction>> actions;
     private String label;
     
     private Function<Player, Object>[] format;
@@ -56,11 +57,15 @@ public class SpaceItem implements ConfigurationSerializable {
     }
     
     public SpaceItem setStack(Material material, int amount, String displayName, String... lore) {
+    	return this.setStack(material, amount, displayName, Arrays.asList(lore));
+    }
+    
+    public SpaceItem setStack(Material material, int amount, String displayName, List<String> lore) {
     	ItemStack itemStack = new ItemStack(material, amount);
     	
     	ItemMeta itemMeta = itemStack.getItemMeta();
     	itemMeta.setDisplayName(displayName);
-    	itemMeta.setLore(Arrays.asList(lore));
+    	itemMeta.setLore(lore);
     	itemStack.setItemMeta(itemMeta);
     	
     	this.setStack(itemStack);
@@ -109,6 +114,10 @@ public class SpaceItem implements ConfigurationSerializable {
     }
     
     public ItemStack getItemStack() {
+    	return this.itemStack;
+    }
+    
+    public ItemStack getFormattedItemStack() {
         return this.formattedItem;
     }
     
@@ -157,5 +166,6 @@ public class SpaceItem implements ConfigurationSerializable {
 		
 		return map;
 	}
+
 
 }

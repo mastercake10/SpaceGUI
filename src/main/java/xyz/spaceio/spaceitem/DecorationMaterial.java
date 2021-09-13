@@ -6,7 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public enum DecorationMaterial {
-	BACKGROUND_GRAY ("STAINED_GLASS_PANE", (byte) 7, "GRAY_STAINED_GLASS_PANE", " ");
+	BACKGROUND_GRAY ("STAINED_GLASS_PANE", (byte) 7, "GRAY_STAINED_GLASS_PANE", " "),
+	BACKGROUND_WHITE ("STAINED_GLASS_PANE", (byte) 0, "WHITE_STAINED_GLASS_PANE", " ");
 	
 	String material12;
 	byte damage12;

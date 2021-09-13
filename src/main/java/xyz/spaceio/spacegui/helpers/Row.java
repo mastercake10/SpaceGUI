@@ -21,6 +21,10 @@ public class Row implements Helper{
 	}
 	
 	public Row addItem(SpaceItem spaceItem) {
+		if(itemList.size() > 8) {
+			return this;
+		}
+		
 		itemList.add(spaceItem);
 		return this;
 	}

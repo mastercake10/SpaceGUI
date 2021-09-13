@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GUIListener implements Listener {
 	
@@ -19,5 +20,10 @@ public class GUIListener implements Listener {
 		Optional<GUIView> guiView = GUIProvider.getViewByInventory(e.getInventory());
 		
 		guiView.ifPresent(view -> GUIProvider.destoryView(view));
+	}
+	
+	@EventHandler
+	public void onLeave(PlayerQuitEvent e) {
+		GUIProvider.destoryView(e.getPlayer());
 	}
 }

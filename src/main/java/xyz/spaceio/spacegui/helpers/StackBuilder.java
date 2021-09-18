@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.WordUtils;
@@ -69,8 +71,31 @@ public class StackBuilder {
 	}
 	
 	public StackBuilder wrapLore() {
-		lore = lore.stream().map(s -> WordUtils.wrap(s, 32).split(System.lineSeparator())).flatMap(Arrays::stream).collect(Collectors.toList());
-
+		List<String> wrappedLore = lore.stream().map(s -> WordUtils.wrap(s, 32).split(System.lineSeparator())).flatMap(Arrays::stream).collect(Collectors.toList());
+		
+		// wrapping color codes
+		String lastColor = "";
+		
+		// regex: only match the last color code occurance in this line
+		Pattern pattern = Pattern.compile("([&§].)(?!.*[&§].)");
+		
+		int idx = 0;
+		for(String line : wrappedLore) {
+			
+			if(lastColor.length() > 0) {
+				line = lastColor + line;
+				wrappedLore.set(idx, line);
+			}
+			
+			Matcher matcher = pattern.matcher(line);
+			if (matcher.find()) {
+				lastColor = matcher.group();	
+			}
+			idx++;
+		}
+		
+		lore = wrappedLore;
+		
 		return this;
 	}
 	

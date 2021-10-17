@@ -18,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import xyz.spaceio.spacegui.GUIView;
 import xyz.spaceio.spacegui.SpaceGUI;
+import xyz.spaceio.spacegui.helpers.StackBuilder;
 
 public class SpaceItem implements ConfigurationSerializable {
 	
@@ -33,42 +34,20 @@ public class SpaceItem implements ConfigurationSerializable {
         super();
         this.actions = new ArrayList< BiConsumer<Player, ClickAction>>();
     }
-    
-    public SpaceItem setStack(final ItemStack itemStack) {
+	
+    public SpaceItem setStack(ItemStack itemStack) {
         this.itemStack = itemStack;
         return this;
     }
     
-    public SpaceItem setStack(DecorationMaterial material) {
-    	this.itemStack = material.get();
-    	return this;
+    public SpaceItem setStack(StackBuilder stackBuilder) {
+        this.setStack(stackBuilder.build());
+        return this;
     }
     
-    public SpaceItem setStack(Material material, int amount, String displayName) {
-		ItemStack itemStack = new ItemStack(material, amount);
-    	
-    	ItemMeta itemMeta = itemStack.getItemMeta();
-    	itemMeta.setDisplayName(displayName);
-    	itemStack.setItemMeta(itemMeta);
-    	
-    	this.setStack(itemStack);
-    	
-    	return this;
-    }
-    
-    public SpaceItem setStack(Material material, int amount, String displayName, String... lore) {
-    	return this.setStack(material, amount, displayName, Arrays.asList(lore));
-    }
-    
-    public SpaceItem setStack(Material material, int amount, String displayName, List<String> lore) {
-    	ItemStack itemStack = new ItemStack(material, amount);
-    	
-    	ItemMeta itemMeta = itemStack.getItemMeta();
-    	itemMeta.setDisplayName(displayName);
-    	itemMeta.setLore(lore);
-    	itemStack.setItemMeta(itemMeta);
-    	
-    	this.setStack(itemStack);
+    public SpaceItem setStack(Material material) {
+    	StackBuilder stackBuilder = new StackBuilder(material);
+    	this.setStack(stackBuilder);
     	
     	return this;
     }
@@ -86,6 +65,11 @@ public class SpaceItem implements ConfigurationSerializable {
     public SpaceItem addAction(final BiConsumer<Player, ClickAction> action) {
         this.actions.add(action);
         return this;
+    }
+    
+    public SpaceItem clearActions() {
+    	this.actions.clear();
+    	return this;
     }
     
     public void performActions(final Player player, final ClickAction action) {

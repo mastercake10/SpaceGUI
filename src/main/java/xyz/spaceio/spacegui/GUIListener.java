@@ -19,11 +19,11 @@ public class GUIListener implements Listener {
 	public void onClose(InventoryCloseEvent e) {
 		Optional<GUIView> guiView = GUIProvider.getViewByInventory(e.getInventory());
 		
-		guiView.ifPresent(view -> GUIProvider.destoryView(view));
+		guiView.ifPresent(GUIProvider::destroy);
 	}
 	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
-		GUIProvider.destoryView(e.getPlayer());
+		GUIProvider.destroyView(e.getPlayer());
 	}
 }

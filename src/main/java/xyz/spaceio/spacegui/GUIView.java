@@ -15,6 +15,8 @@ public class GUIView {
 	public SpaceGUI spaceGUI;
 	Player viewer;
 	
+	private long lastClicked;
+	
 	private GUIView previousView;
 	
 	public GUIView(Player viewer, SpaceGUI spaceGUI, Inventory inventory) {
@@ -35,7 +37,16 @@ public class GUIView {
 	}
 
 	public void onClick(InventoryClickEvent e) {
-		spaceGUI.onClick(e, this);
+		e.setCancelled(true);
+		
+		if(!this.isCooldown()) {
+			spaceGUI.onClick(e, this);			
+			this.lastClicked = System.currentTimeMillis();
+		}
+	}
+	
+	public boolean isCooldown() {
+		return System.currentTimeMillis() - this.lastClicked < spaceGUI.getCooldownMillis();
 	}
 	
 	public void update(SpaceItem spaceItem) {
@@ -57,6 +68,12 @@ public class GUIView {
 
 	public SpaceGUI getSpaceGUI() {
 		return spaceGUI;
+	}
+
+	@Override
+	public String toString() {
+		return "GUIView [inventory=" + inventory + ", spaceGUI=" + spaceGUI + ", viewer=" + viewer + ", previousView="
+				+ previousView + "]";
 	}
 	
 }

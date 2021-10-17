@@ -16,10 +16,7 @@ import xyz.spaceio.spaceitem.SpaceItem;
 public class GUIProvider {
 	
 	private static HashMap<Player, GUIView> registeredGUIs = new HashMap<>();
-//	class PlayerCache {
-//	Queue<GUIView> history = new PriorityQueue<GUIView>();
-//	GUIView currentView;
-//}
+
 	public static void registerPlugin(Plugin plugin) {
 		plugin.getServer().getPluginManager().registerEvents(new GUIListener(), plugin);
 		
@@ -47,11 +44,11 @@ public class GUIProvider {
 		return gui;
 	}
 	
-	static void destoryView(GUIView view) {
-		GUIProvider.destoryView(view.viewer);
+	static void destroy(GUIView view) {
+		GUIProvider.destroyView(view.viewer);
 	}
 	
-	static void destoryView(Player player) {
+	static void destroyView(Player player) {
 		registeredGUIs.remove(player);
 	}
 }

@@ -21,8 +21,9 @@ public class SpaceGUI implements ConfigurationSerializable{
 	private String title = "";
 	
 	private Map<Integer, SpaceItem> items = new HashMap<>();
-	
 	private SpaceItem backGroundItem;
+	
+	private long cooldownMillis = 200;
 	
 	public SpaceGUI() {
 		
@@ -44,7 +45,20 @@ public class SpaceGUI implements ConfigurationSerializable{
 		return this;
 	}
 	
+	public long getCooldownMillis() {
+		return cooldownMillis;
+	}
+
+
+	public void setCooldownMillis(long cooldownMillis) {
+		this.cooldownMillis = cooldownMillis;
+	}
+
+
 	public SpaceGUI addItem(SpaceItem spaceItem, int slot) {
+		if(slot == -1) {
+			slot = size - 1;
+		}
 		this.items.put(slot, spaceItem);
 		return this;
 	}
@@ -116,7 +130,7 @@ public class SpaceGUI implements ConfigurationSerializable{
 		items.forEach((slot, item) -> {
 			if(item != null) {
 				item.format(player);
-				inventory.setItem(slot, item.getItemStack());				
+				inventory.setItem(slot, item.getFormattedItemStack());
 			}
 		});
 		GUIView view = new GUIView(player, this, inventory);
@@ -131,7 +145,6 @@ public class SpaceGUI implements ConfigurationSerializable{
 	
 
 	public void onClick(InventoryClickEvent e, GUIView view) {
-		e.setCancelled(true);
 		if(!this.items.containsKey(e.getSlot())) return;
 		
 		this.items.get(e.getSlot()).performActions((Player) e.getWhoClicked(), new ClickAction(e, view));

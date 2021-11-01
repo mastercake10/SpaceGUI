@@ -7,15 +7,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import xyz.spaceio.spaceitem.ClickAction;
-import xyz.spaceio.spaceitem.SpaceItem;
-
 public class BiSwitchItem extends SpaceItem {
 	private Supplier<Boolean> supplierIsEnabled;
 	
 	private ItemStack itemOn;
 	private ItemStack itemOff;
 	
+	private BiConsumer<Player, ClickAction> actionOnEnable;
+	private BiConsumer<Player, ClickAction> actionOnDisable;
 
 	
 	public BiSwitchItem(Supplier<Boolean> supplierIsEnabled, SpaceItem itemOn, SpaceItem itemOff) {
@@ -26,15 +25,30 @@ public class BiSwitchItem extends SpaceItem {
 		
 		this.setStack(new ItemStack(Material.AIR));
 		this.update(this.getItemStack());
+		
 		super.addAction((p, c) -> {
+			if(supplierIsEnabled != null && supplierIsEnabled.get()) {
+				if(actionOnDisable != null) {
+					actionOnDisable.accept(p, c);
+				}
+			} else {
+				if(actionOnEnable != null) {
+					actionOnEnable.accept(p, c);
+				}
+			}
+			
 			this.update(c.clickEvent.getCurrentItem());
 		});
 	}
 	
-    @Override
-    public SpaceItem addAction(final BiConsumer<Player, ClickAction> action) {
-        this.actions.add(0, action);
-        return this;
+    public BiSwitchItem onEnable(BiConsumer<Player, ClickAction> action) {
+    	this.actionOnEnable = action;
+    	return this;
+    }
+    
+    public BiSwitchItem onDisable(BiConsumer<Player, ClickAction> action) {
+    	this.actionOnDisable = action;
+    	return this;
     }
 	
 	private void update(ItemStack itemStackClicked) {
@@ -47,6 +61,7 @@ public class BiSwitchItem extends SpaceItem {
 
 		currentItemStack.setType(newItemStack.getType());
 		currentItemStack.setAmount(newItemStack.getAmount());
+		currentItemStack.setDurability(newItemStack.getDurability());
 		
 		if(newItemStack.hasItemMeta()) {
 			currentItemStack.setItemMeta(newItemStack.getItemMeta());

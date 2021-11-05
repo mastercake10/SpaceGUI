@@ -1,8 +1,11 @@
 package xyz.spaceio.spacegui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiConsumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,6 +27,8 @@ public class SpaceGUI implements ConfigurationSerializable{
 	private SpaceItem backGroundItem;
 	
 	private long cooldownMillis = 200;
+	
+	private List<BiConsumer<Player, ClickAction>> clickActions = new ArrayList<>();
 	
 	public SpaceGUI() {
 		
@@ -143,8 +148,15 @@ public class SpaceGUI implements ConfigurationSerializable{
 		view.show();
 	}
 	
+	public void addAction(final BiConsumer<Player, ClickAction> action) {
+		clickActions.add(action);		
+	}
+	
 
 	public void onClick(InventoryClickEvent e, GUIView view) {
+		this.clickActions.forEach(consumer -> consumer.accept((Player) e.getWhoClicked(), new ClickAction(e, view)));
+		
+		// handle item click
 		if(!this.items.containsKey(e.getSlot())) return;
 		
 		this.items.get(e.getSlot()).performActions((Player) e.getWhoClicked(), new ClickAction(e, view));

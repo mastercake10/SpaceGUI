@@ -47,7 +47,7 @@ public class StackBuilder {
 		return this;
 	}
 	
-	public StackBuilder setLore(List<String> formatLore, String toInsert) {
+	public StackBuilder setLore(List<String> formatLore, Object toInsert) {
 		return this.setLore(formatLore.stream()
 				.map(line -> String.format(line, toInsert))
 				.collect(Collectors.toList()));

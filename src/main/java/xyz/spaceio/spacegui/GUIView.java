@@ -37,12 +37,15 @@ public class GUIView {
 	}
 
 	public void onClick(InventoryClickEvent e) {
-		e.setCancelled(true);
-		
+		if (!e.getClickedInventory().equals(inventory)) {
+			return;
+		}
 		if(!this.isCooldown()) {
 			spaceGUI.onClick(e, this);			
 			this.lastClicked = System.currentTimeMillis();
 		}
+		
+		e.setCancelled(true);
 	}
 	
 	public boolean isCooldown() {
@@ -52,6 +55,10 @@ public class GUIView {
 	public void update(SpaceItem spaceItem) {
 		ItemStack updatedItemStack = spaceItem.getFormatted(viewer);
 		inventory.setItem(spaceGUI.getSlot(spaceItem), updatedItemStack);
+	}
+	
+	public void updateSlot(int slot, SpaceItem spaceItem) {
+		inventory.getItem(slot).setItemMeta(spaceItem.getItemStack().getItemMeta());
 	}
 
 	public void setPreviousView(GUIView guiView) {

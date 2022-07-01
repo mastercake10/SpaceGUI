@@ -91,6 +91,10 @@ public class SpaceGUI implements ConfigurationSerializable{
 		return null;
 	}
 	
+	public SpaceItem getItem(int slot) {
+		return this.items.get(slot);
+	}
+	
 	public int getSlot(SpaceItem item) {
 		for(Entry<Integer, SpaceItem> entry : items.entrySet()) {
 			if(item.getLabel() != null && entry.getValue().getLabel() != null) {

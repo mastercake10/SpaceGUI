@@ -44,11 +44,11 @@ public class GUIProvider {
 		return gui;
 	}
 	
-	static void destroy(GUIView view) {
+	public static void destroy(GUIView view) {
 		GUIProvider.destroyView(view.viewer);
 	}
 	
-	static void destroyView(Player player) {
+	public static void destroyView(Player player) {
 		registeredGUIs.remove(player);
 	}
 }

@@ -21,7 +21,7 @@ public class GUIProvider {
 		plugin.getServer().getPluginManager().registerEvents(new GUIListener(), plugin);
 		
 		ConfigurationSerialization.registerClass(SpaceItem.class);
-		ConfigurationSerialization.registerClass(SpaceGUI.class);
+		//ConfigurationSerialization.registerClass(SpaceGUI.class);
 	}
 	
 	public static void registerView(GUIView guiView) {

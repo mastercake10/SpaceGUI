@@ -22,11 +22,14 @@ public class GUIMultiPage {
 	 * Navigation Items
 	 */
 	private SpaceItem itemPreviousPage = new SpaceItem().setStack(new StackBuilder(Material.ARROW).setDisplayname("&e<-"));
+	private int slotItemPreviousPage = 9*6-9;
+	
 	private SpaceItem itemNextPage = new SpaceItem().setStack(new StackBuilder(Material.ARROW).setDisplayname("&e->"));
+	private int slotItemNextPage = 9*6-1;
 	
 	private SpaceItem itemBackground = new SpaceItem().setStack(DecorationMaterial.LIGHT_BLUE_STAINED_GLASS_PANE.get());
 	
-	// Items that will be added to the navigation
+	// Items that will be added to the navigation bar
 	private HashMap<Integer, SpaceItem> fixedOptionItems = new HashMap<>();
 		
 	private String titleFormat;
@@ -88,14 +91,14 @@ public class GUIMultiPage {
 				.addAction((p,a) -> this.getPage(this.getPageNum(a.view.spaceGUI)-1).ifPresent(gui -> gui.open(p)));
 		
 		if(!firstPage) {
-			spaceGUI.addItem(previousPage, 9*6-9);	
+			spaceGUI.addItem(previousPage, slotItemPreviousPage);	
 		}
 		
 		SpaceItem nextPage = itemNextPage
 				.addAction((p,a) -> this.getPage(this.getPageNum(a.view.spaceGUI)+1).ifPresent(gui -> gui.open(p)));
 		
 		if(!lastPage) {
-			spaceGUI.addItem(nextPage, 9*6-1);	
+			spaceGUI.addItem(nextPage, slotItemNextPage);	
 		}
 		
 		this.fixedOptionItems.forEach((index, item) -> {
@@ -139,6 +142,22 @@ public class GUIMultiPage {
 
 	public void setItemNextPage(SpaceItem itemNextPage) {
 		this.itemNextPage = itemNextPage;
+	}
+
+	public int getSlotItemPreviousPage() {
+		return slotItemPreviousPage;
+	}
+
+	public void setSlotItemPreviousPage(int slotItemPreviousPage) {
+		this.slotItemPreviousPage = slotItemPreviousPage;
+	}
+
+	public int getSlotItemNextPage() {
+		return slotItemNextPage;
+	}
+
+	public void setSlotItemNextPage(int slotItemNextPage) {
+		this.slotItemNextPage = slotItemNextPage;
 	}
 	
 }

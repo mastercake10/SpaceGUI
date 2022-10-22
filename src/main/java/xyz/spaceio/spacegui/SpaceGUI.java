@@ -32,12 +32,14 @@ public class SpaceGUI extends ItemPane /*implements ConfigurationSerializable*/{
 	
 	
 	/**
-	 * Sets the size of the GUI
+	 * Sets the size of the GUI and parent ItemFrame. Must be multiply of 9.
 	 * @param size
 	 * @return
 	 */
 	public SpaceGUI size(int size) {
 		this.size = size - (size % 9);
+		
+		this.setSize(9, size / 9);
 		return this;
 	}
 	

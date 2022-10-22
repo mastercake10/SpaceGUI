@@ -32,8 +32,8 @@ public class ItemPane {
 	}
 	
 	public void addItem(SpaceItem spaceItem, int slot) {
-		if(slot == -1) {
-			slot = this.sizeX * this.sizeY - 1;
+		if(slot < 0) {
+			slot = this.sizeX * this.sizeY + slot;
 		}
 		this.items.put(slot, spaceItem);
 	}
@@ -118,7 +118,6 @@ public class ItemPane {
 				itemStacks.put(slot, item.getFormattedItemStack());
 			}
 		});
-		System.out.println("lol");
 		
 		itemPanes.forEach(pane -> {
 			HashMap<Integer, ItemStack> paneItemStacks = pane.getItemStacks(player);

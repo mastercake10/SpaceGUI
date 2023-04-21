@@ -2,12 +2,12 @@ package xyz.spaceio.spaceitem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.bukkit.Material;
@@ -16,8 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import xyz.spaceio.spacegui.GUIView;
-import xyz.spaceio.spacegui.SpaceGUI;
 import xyz.spaceio.spacegui.helpers.StackBuilder;
 
 public class SpaceItem implements ConfigurationSerializable {
@@ -27,6 +25,7 @@ public class SpaceItem implements ConfigurationSerializable {
     private String label;
     
     private Function<Player, Object>[] format;
+    private Supplier<StackBuilder> dynamicStack;
     private ItemStack formattedItem;
   
 
@@ -38,6 +37,11 @@ public class SpaceItem implements ConfigurationSerializable {
     public SpaceItem setStack(ItemStack itemStack) {
         this.itemStack = itemStack;
         return this;
+    }
+    
+    public SpaceItem setStack(Supplier<StackBuilder> stackBuilder) {
+    	this.dynamicStack = stackBuilder;
+    	return this;
     }
     
     public SpaceItem setStack(StackBuilder stackBuilder) {
@@ -90,7 +94,7 @@ public class SpaceItem implements ConfigurationSerializable {
         		return cloned;
         	}	
     	}
-    	return this.itemStack;
+    	return this.getItemStack();
     }
     
     public void format(Player player) {
@@ -98,6 +102,9 @@ public class SpaceItem implements ConfigurationSerializable {
     }
     
     public ItemStack getItemStack() {
+    	if(this.dynamicStack != null) {
+    		return this.dynamicStack.get().build();
+    	}
     	return this.itemStack;
     }
     

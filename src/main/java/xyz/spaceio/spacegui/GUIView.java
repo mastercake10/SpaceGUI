@@ -41,8 +41,9 @@ public class GUIView {
 			spaceGUI.onClick(e, this);			
 			this.lastClicked = System.currentTimeMillis();
 		}
-		
-		e.setCancelled(true);
+		if(e.getClickedInventory() != null && e.getClickedInventory().equals(this.inventory)){
+			e.setCancelled(true);
+		}
 	}
 	
 	public boolean isCooldown() {
@@ -68,6 +69,14 @@ public class GUIView {
 		GUIProvider.registerView(this);
 		
 		viewer.openInventory(this.inventory);
+	}
+
+	public void update() {
+		Inventory updatedInventory = this.spaceGUI.update(viewer);
+
+		this.inventory.setContents(updatedInventory.getContents());
+
+		this.viewer.updateInventory();
 	}
 
 	public SpaceGUI getSpaceGUI() {

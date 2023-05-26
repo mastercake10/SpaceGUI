@@ -58,21 +58,25 @@ public class SpaceGUI extends ItemPane /*implements ConfigurationSerializable*/{
 	}
 
 
-	public GUIView build(Player player) {
+	public Inventory update(Player player) {
 		Inventory inventory = Bukkit.createInventory(null, size, title);
-		
+
 		super.setSize(9, this.size);
-		
+
 		HashMap<Integer, ItemStack> itemStacks = super.getItemStacks(player);
 		itemStacks.forEach((slot, itemStack) -> {
 			if (slot < inventory.getSize()) {
-				inventory.setItem(slot, itemStack);				
+				inventory.setItem(slot, itemStack);
 			}
 		});
-		
-		GUIView view = new GUIView(player, this, inventory);
-		
-		return view;
+
+		return inventory;
+	}
+
+	public GUIView build(Player player) {
+		Inventory inventory = this.update(player);
+
+		return new GUIView(player, this, inventory);
 	}
 	
 	public void open(Player player) {

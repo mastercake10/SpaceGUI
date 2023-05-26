@@ -37,9 +37,6 @@ public class GUIView {
 	}
 
 	public void onClick(InventoryClickEvent e) {
-		if (!e.getClickedInventory().equals(inventory)) {
-			return;
-		}
 		if(!this.isCooldown()) {
 			spaceGUI.onClick(e, this);			
 			this.lastClicked = System.currentTimeMillis();

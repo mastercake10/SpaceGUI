@@ -25,7 +25,8 @@ public class SpaceItem implements ConfigurationSerializable {
     private String label;
     
     private Function<Player, Object>[] format;
-    private Supplier<StackBuilder> dynamicStack;
+
+    private Supplier<ItemStack> dynamicItemstack;
     private ItemStack formattedItem;
   
 
@@ -38,12 +39,12 @@ public class SpaceItem implements ConfigurationSerializable {
         this.itemStack = itemStack;
         return this;
     }
-    
-    public SpaceItem setStack(Supplier<StackBuilder> stackBuilder) {
-    	this.dynamicStack = stackBuilder;
-    	return this;
+
+    public SpaceItem setStack(Supplier<ItemStack> dynamicItemstack) {
+        this.dynamicItemstack = dynamicItemstack;
+        return this;
     }
-    
+
     public SpaceItem setStack(StackBuilder stackBuilder) {
         this.setStack(stackBuilder.build());
         return this;
@@ -102,8 +103,8 @@ public class SpaceItem implements ConfigurationSerializable {
     }
     
     public ItemStack getItemStack() {
-    	if(this.dynamicStack != null) {
-    		return this.dynamicStack.get().build();
+    	if(this.dynamicItemstack != null) {
+    		return this.dynamicItemstack.get();
     	}
     	return this.itemStack;
     }

@@ -128,6 +128,10 @@ public class GUIMultiPage {
 		return this.getPage(0);
 	}
 
+	public List<SpaceGUI> getPages() {
+		return pages;
+	}
+
 	public SpaceItem getItemPreviousPage() {
 		return itemPreviousPage;
 	}

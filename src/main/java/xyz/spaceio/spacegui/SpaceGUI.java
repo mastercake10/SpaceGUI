@@ -13,6 +13,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -98,8 +99,10 @@ public class SpaceGUI extends ItemPane /*implements ConfigurationSerializable*/{
 		Map<Integer, SpaceItem> items = super.getItems();
 		// TODO: Calculate relative pane coordinates
 		if(!items.containsKey(e.getSlot())) return;
-		
-		items.get(e.getSlot()).performActions((Player) e.getWhoClicked(), new ClickAction(e, view));
+
+		if(e.getClickedInventory() != null && e.getClickedInventory().getType() != InventoryType.PLAYER) {
+			items.get(e.getSlot()).performActions((Player) e.getWhoClicked(), new ClickAction(e, view));
+		}
 	}
 	
 //    public static SpaceGUI deserialize(Map<String, Object> map) {

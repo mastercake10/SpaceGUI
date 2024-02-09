@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.bukkit.Material;
 
 import xyz.spaceio.spacegui.SpaceGUI;
+import xyz.spaceio.spacegui.helpers.CustomHeads;
 import xyz.spaceio.spacegui.helpers.StackBuilder;
 import xyz.spaceio.spaceitem.DecorationMaterial;
 import xyz.spaceio.spaceitem.SpaceItem;
@@ -21,10 +22,10 @@ public class GUIMultiPage {
 	/*
 	 * Navigation Items
 	 */
-	private SpaceItem itemPreviousPage = new SpaceItem().setStack(new StackBuilder(Material.ARROW).setDisplayname("&e<-"));
+	private SpaceItem itemPreviousPage = new SpaceItem().setStack(new StackBuilder(CustomHeads.CustomHead.ARROW_LEFT).setDisplayname("&e<-"));
 	private int slotItemPreviousPage = 9*6-9;
 	
-	private SpaceItem itemNextPage = new SpaceItem().setStack(new StackBuilder(Material.ARROW).setDisplayname("&e->"));
+	private SpaceItem itemNextPage = new SpaceItem().setStack(new StackBuilder(CustomHeads.CustomHead.ARROW_RIGHT).setDisplayname("&e->"));
 	private int slotItemNextPage = 9*6-1;
 	
 	private SpaceItem itemBackground = new SpaceItem().setStack(DecorationMaterial.LIGHT_BLUE_STAINED_GLASS_PANE.get());

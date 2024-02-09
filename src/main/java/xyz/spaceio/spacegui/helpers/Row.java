@@ -66,4 +66,12 @@ public class Row implements Helper{
 		}
 		
 	}
+
+	public void clear() {
+		this.itemList.clear();
+	}
+
+	public List<SpaceItem> getItems() {
+		return this.itemList;
+	}
 }

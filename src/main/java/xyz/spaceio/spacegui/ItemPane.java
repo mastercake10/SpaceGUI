@@ -114,8 +114,12 @@ public class ItemPane {
 		
 		items.forEach((slot, item) -> {
 			if(item != null) {
-				item.format(player);
-				itemStacks.put(slot, item.getFormattedItemStack());
+				if(item.getDynamicStack() != null) {
+					itemStacks.put(slot, item.getItemStack());
+				} else {
+					item.format(player);
+					itemStacks.put(slot, item.getFormattedItemStack());
+				}
 			}
 		});
 		
@@ -139,6 +143,10 @@ public class ItemPane {
     public void addItemPane(ItemPane itemPane) {
     	this.itemPanes.add(itemPane);
     }
+
+	public void clearItems() {
+		this.items.clear();
+	}
 	
    
 }

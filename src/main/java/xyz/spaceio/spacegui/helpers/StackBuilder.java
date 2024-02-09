@@ -27,6 +27,7 @@ public class StackBuilder {
 	
 	private boolean formatColorCodes = true;
 	private DecorationMaterial decorationMaterial;
+	private CustomHeads.CustomHead customHead;
 	
 	
 	public StackBuilder(Material material) {
@@ -36,7 +37,11 @@ public class StackBuilder {
 	public StackBuilder(DecorationMaterial decorationMaterial) {
 		this.decorationMaterial = decorationMaterial;
 	}
-	
+
+	public StackBuilder(CustomHeads.CustomHead customHead) {
+		this.customHead = customHead;
+	}
+
 	public StackBuilder setAmount(int amount) {
 		this.amount = amount;
 		return this;
@@ -71,6 +76,7 @@ public class StackBuilder {
 	}
 	
 	public StackBuilder wrapLore() {
+
 		List<String> wrappedLore = lore.stream().map(s -> WordUtils.wrap(s, 32).split(System.lineSeparator())).flatMap(Arrays::stream).collect(Collectors.toList());
 		
 		// wrapping color codes
@@ -107,10 +113,15 @@ public class StackBuilder {
 	@SuppressWarnings("deprecation")
 	public ItemStack build() {
 		ItemStack itemStack;
-		
+
+		if(customHead != null) {
+			itemStack = customHead.get();
+		} else
 		if(decorationMaterial != null) {
+			// decoration material
 			itemStack = decorationMaterial.get();
 		} else {
+			// normal item stack
 			itemStack = new ItemStack(type, amount);
 			
 			if(data != 0) {

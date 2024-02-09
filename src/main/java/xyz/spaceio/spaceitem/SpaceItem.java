@@ -140,6 +140,10 @@ public class SpaceItem implements ConfigurationSerializable {
 //		return this;
 //	}
 
+    public Supplier<ItemStack> getDynamicStack() {
+        return this.dynamicItemstack;
+    }
+
     public static SpaceItem deserialize(Map<String, Object> map) {
         return new SpaceItem()
         				.setStack((ItemStack) map.get("itemstack"))

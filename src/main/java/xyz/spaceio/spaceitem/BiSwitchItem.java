@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class BiSwitchItem extends SpaceItem {
-	private Supplier<Boolean> supplierIsEnabled;
-	
-	private ItemStack itemOn;
-	private ItemStack itemOff;
-	
+	private final Supplier<Boolean> supplierIsEnabled;
+
+	private final ItemStack itemOn;
+	private final ItemStack itemOff;
+
 	private BiConsumer<Player, ClickAction> actionOnEnable;
 	private BiConsumer<Player, ClickAction> actionOnDisable;
 
@@ -24,7 +24,7 @@ public class BiSwitchItem extends SpaceItem {
 		this.itemOff = itemOff.getItemStack();
 		
 		this.setStack(new ItemStack(Material.AIR));
-		this.update(this.getItemStack());
+		this.update();
 		
 		super.addAction((p, c) -> {
 			if(supplierIsEnabled != null && supplierIsEnabled.get()) {
@@ -37,7 +37,11 @@ public class BiSwitchItem extends SpaceItem {
 				}
 			}
 			
-			this.update(c.clickEvent.getCurrentItem());
+			this.update();
+			if(c.clickEvent.getCurrentItem() != null) {
+				c.clickEvent.getCurrentItem().setType(this.getItemStack().getType());
+				c.clickEvent.getCurrentItem().setItemMeta(this.getItemStack().getItemMeta());
+			}
 		});
 	}
 	
@@ -51,22 +55,12 @@ public class BiSwitchItem extends SpaceItem {
     	return this;
     }
 	
-	private void update(ItemStack itemStackClicked) {
-		ItemStack currentItemStack = itemStackClicked;
-		ItemStack newItemStack = this.itemOff;
-		
+	private void update() {
 		if(supplierIsEnabled != null && supplierIsEnabled.get()) {
-			newItemStack = this.itemOn;
+			this.setStack(() -> this.itemOn);
+		} else {
+			this.setStack(() -> this.itemOff);
 		}
-
-		currentItemStack.setType(newItemStack.getType());
-		currentItemStack.setAmount(newItemStack.getAmount());
-		currentItemStack.setDurability(newItemStack.getDurability());
-		
-		if(newItemStack.hasItemMeta()) {
-			currentItemStack.setItemMeta(newItemStack.getItemMeta());
-		}
-		
 	}
   
 }

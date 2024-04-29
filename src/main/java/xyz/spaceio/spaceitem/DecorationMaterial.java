@@ -38,10 +38,9 @@ public enum DecorationMaterial {
 	
 	@SuppressWarnings("deprecation")
 	public ItemStack get() {
-		String packageName = Bukkit.getServer().getClass().getPackage().getName();
-        String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-        
-		int versionNum = Integer.parseInt(version.substring(3, 5).replace("_", ""));
+		String bukkitVersion = Bukkit.getServer().getBukkitVersion().split("-")[0];
+
+		int versionNum = Integer.parseInt(bukkitVersion.split("\\.")[0] + bukkitVersion.split("\\.")[1]);
 		
 		ItemStack itemStack;
 		

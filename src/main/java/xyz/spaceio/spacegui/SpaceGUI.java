@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.spaceio.spaceitem.ClickAction;
 import xyz.spaceio.spaceitem.SpaceItem;
 
-public class SpaceGUI extends ItemPane /*implements ConfigurationSerializable*/{
+public class SpaceGUI extends ItemPane implements ConfigurationSerializable{
 	private int size = 9;
 	private String title = "";
 	
@@ -105,27 +105,29 @@ public class SpaceGUI extends ItemPane /*implements ConfigurationSerializable*/{
 		}
 	}
 	
-//    public static SpaceGUI deserialize(Map<String, Object> map) {
-//        return new SpaceGUI()
-//        				.title((String) map.get("title"))
-//        				.size(((int) map.get("rows")) * 9)
-//        				.addAll((Map<Integer, SpaceItem>) map.get("items"))
-//        				.fillBackground((SpaceItem) map.get("background"));
-//    }
-//
-//    public static SpaceGUI valueOf(Map<String, Object> map) {
-//        return SpaceGUI.deserialize(map);
-//    }
-//    
-//	@Override
-//	public Map<String, Object> serialize() {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("items", items);
-//		map.put("background", backGroundItem);
-//		map.put("title", title);
-//		map.put("rows", size / 9);
-//	
-//		
-//		return map;
-//	}
+    public static SpaceGUI deserialize(Map<String, Object> map) {
+		SpaceGUI gui = new SpaceGUI()
+				.title((String) map.get("title"))
+				.size(((int) map.get("rows")) * 9);
+
+		ItemPane.deserializeValues(gui, map);
+
+		return gui;
+	}
+
+    public static SpaceGUI valueOf(Map<String, Object> map) {
+        return SpaceGUI.deserialize(map);
+    }
+
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("title", title);
+		map.put("rows", size / 9);
+
+		// add ItemPane fields
+		map.putAll(super.serialize());
+
+		return map;
+	}
 }

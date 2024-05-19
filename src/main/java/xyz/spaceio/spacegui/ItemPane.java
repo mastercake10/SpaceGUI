@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BiConsumer;
 
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import xyz.spaceio.spaceitem.ClickAction;
 import xyz.spaceio.spaceitem.SpaceItem;
 
-public class ItemPane {
+public class ItemPane implements ConfigurationSerializable {
 	private Map<Integer, SpaceItem> items = new HashMap<>();
 	private SpaceItem backGroundItem;
 
@@ -147,6 +146,29 @@ public class ItemPane {
 	public void clearItems() {
 		this.items.clear();
 	}
-	
-   
+
+	public static ItemPane deserialize(Map<String, Object> map) {
+		ItemPane itemPane = new ItemPane(9, 6, 0, 0);
+		deserializeValues(itemPane, map);
+
+		return itemPane;
+	}
+
+	public static void deserializeValues(ItemPane itemPane, Map<String, Object> map) {
+		itemPane.addAll((Map<Integer, SpaceItem>) map.get("items"));
+		itemPane.fillBackground((SpaceItem) map.get("background"));
+	}
+
+	public static SpaceGUI valueOf(Map<String, Object> map) {
+		return SpaceGUI.deserialize(map);
+	}
+
+	@Override
+	public Map<String, Object> serialize() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("items", items);
+		map.put("background", backGroundItem);
+
+		return map;
+	}
 }

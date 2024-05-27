@@ -40,7 +40,7 @@ public enum DecorationMaterial {
 	public ItemStack get() {
 		String bukkitVersion = Bukkit.getServer().getBukkitVersion().split("-")[0];
 
-		int versionNum = Integer.parseInt(bukkitVersion.split("\\.")[0] + bukkitVersion.split("\\.")[1]);
+		int versionNum = Integer.parseInt(bukkitVersion.split("\\.")[1]);
 		
 		ItemStack itemStack;
 		

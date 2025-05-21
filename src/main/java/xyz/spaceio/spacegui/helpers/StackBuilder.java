@@ -133,6 +133,10 @@ public class StackBuilder {
 
 		
 		ItemMeta itemMeta = itemStack.getItemMeta();
+
+		if (itemMeta == null)
+			return itemStack;
+
 		if(displayname != null) {
 			if(formatColorCodes) {
 				displayname = ChatColor.translateAlternateColorCodes('&', displayname);

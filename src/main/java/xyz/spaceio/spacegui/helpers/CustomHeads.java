@@ -75,7 +75,7 @@ public class CustomHeads {
                 profile.setTextures(textures);
                 skullMeta.setOwnerProfile(profile);
                 itemStack.setItemMeta(skullMeta);
-            } catch (Exception e) {
+            } catch (Exception | NoSuchMethodError e) {
                 return new ItemStack(Objects.requireNonNull(Material.getMaterial(fallback)));
             }
 
